@@ -6,9 +6,10 @@ export const PlusIcon = ({
   width = "16",
   stroke = "currentColor",
   height = "16",
+  className
 }: IIcon) => {
   return (
-    <svg
+    <svg className={className}
       width={width}
       height={height}
       viewBox="0 0 17 16"
@@ -30,9 +31,10 @@ export const ShortAnsIcon = ({
   width = "20",
   stroke = "currentColor",
   height = "20",
+  className
 }: IIcon) => {
   return (
-    <svg
+    <svg className={className}
       width={width}
       height={height}
       viewBox="0 0 20 20"
@@ -61,9 +63,10 @@ export const LongAnsIcon = ({
   width = "20",
   stroke = "currentColor",
   height = "20",
+  className
 }: IIcon) => {
   return (
-    <svg
+    <svg className={className}
       width={width}
       height={height}
       viewBox="0 0 20 20"
@@ -99,9 +102,10 @@ export const DragIcon = ({
   width = "16",
   stroke = "currentColor",
   height = "16",
+  className
 }: IIcon) => {
   return (
-    <svg
+    <svg className={className}
       width={width}
       height={height}
       viewBox="0 0 25 24"
@@ -125,9 +129,10 @@ export const SelectIcon = ({
   width = "20",
   stroke = "currentColor",
   height = "20",
+  className
 }: IIcon) => {
   return (
-    <svg
+    <svg className={className}
       width={width}
       height={height}
       viewBox="0 0 20 20"
@@ -162,9 +167,10 @@ export const HashIcon = ({
   width = "20",
   stroke = "currentColor",
   height = "20",
+  className
 }: IIcon) => {
   return (
-    <svg
+    <svg className={className}
       width={width}
       height={height}
       viewBox="0 0 21 20"
@@ -203,9 +209,10 @@ export const UrlIcon = ({
   width = "20",
   stroke = "currentColor",
   height = "20",
+  className
 }: IIcon) => {
   return (
-    <svg
+    <svg className={className}
       width={width}
       height={height}
       viewBox="0 0 20 20"
@@ -232,9 +239,10 @@ export const ChevronDown = ({
   width = "20",
   stroke = "currentColor",
   height = "20",
+  className
 }: IIcon) => {
   return (
-    <svg
+    <svg className={className}
       width={width}
       height={height}
       viewBox="0 0 17 16"
@@ -256,9 +264,10 @@ export const UpArrowIcon = ({
   width = "16",
   stroke = "currentColor",
   height = "16",
+  className
 }: IIcon) => {
   return (
-    <svg
+    <svg className={className}
       width={width}
       height={height}
       viewBox="0 0 16 16"
