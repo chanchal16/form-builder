@@ -1,5 +1,6 @@
 import { Button } from "@/components/Button";
-import { PlusIcon, UpArrowIcon } from "@/components/Icon";
+import { Dropdown } from "@/components/Dropdown";
+import { UpArrowIcon } from "@/components/Icon";
 
 export default function Home() {
   return (
@@ -24,10 +25,7 @@ export default function Home() {
           <p className="text-xl text-gray-500">
             Your form is waiting. Add your first question.
           </p>
-          <Button variant="primary" className="pl-[14px] pr-4 gap-1">
-            <PlusIcon width="20" height="20" />
-            Add Questions
-          </Button>
+          <Dropdown />
         </div>
       </div>
     </div>
