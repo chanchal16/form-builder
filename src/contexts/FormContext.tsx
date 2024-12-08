@@ -16,17 +16,54 @@ type Action =
   | {
       type: "UPDATE_QUESTION_TYPE";
       payload: { id: string; type: QuestionType };
+    }
+  | {
+      type: "UPDATE_QUESTION_TEXT";
+      payload: { id: string; text: string };
+    }
+  | {
+      type: "UPDATE_HELPER_TEXT";
+      payload: { id: string; helpText: string };
     };
 
 const initialState: FormState = {
   title: "",
   questions: [],
+  validationErrors: [],
 };
 
 const formReducer = (state: FormState, action: Action): FormState => {
   switch (action.type) {
     case "SET_FORM_NAME":
       return { ...state, title: action.payload };
+
+    case "UPDATE_QUESTION_TEXT":
+      return {
+        ...state,
+        questions: state.questions.map((question) => {
+          if (question.id === action.payload.id) {
+            return {
+              ...question,
+              text: action.payload.text,
+            };
+          }
+          return question;
+        }),
+      };
+
+    case "UPDATE_HELPER_TEXT":
+      return {
+        ...state,
+        questions: state.questions.map((question) => {
+          if (question.id === action.payload.id) {
+            return {
+              ...question,
+              helperText: action.payload.helpText,
+            };
+          }
+          return question;
+        }),
+      };
 
     case "ADD_QUESTION":
       const newQuestion: Question = { id: uuidv4(), type: action.payload };
