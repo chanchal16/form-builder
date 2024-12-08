@@ -7,7 +7,16 @@ import { v4 as uuidv4 } from "uuid";
 type Action =
   | { type: "SET_FORM_NAME"; payload: string }
   | { type: "ADD_QUESTION"; payload: QuestionType }
-  | { type: "REMOVE_QUESTION"; payload: string };
+  | { type: "REMOVE_QUESTION"; payload: string }
+  | { type: "ADD_OPTION"; payload: string }
+  | {
+      type: "UPDATE_OPTION";
+      payload: { id: string; index: number; value: string };
+    }
+  | {
+      type: "UPDATE_QUESTION_TYPE";
+      payload: { id: string; type: QuestionType };
+    };
 
 const initialState: FormState = {
   title: "",
@@ -22,7 +31,7 @@ const formReducer = (state: FormState, action: Action): FormState => {
     case "ADD_QUESTION":
       const newQuestion: Question = { id: uuidv4(), type: action.payload };
       if (action.payload === "select") {
-        newQuestion.options = ["Option 1", "Option 2"];
+        newQuestion.options = ["", ""];
       }
       return { ...state, questions: [...state.questions, newQuestion] };
 
@@ -34,6 +43,41 @@ const formReducer = (state: FormState, action: Action): FormState => {
         ),
       };
 
+    case "ADD_OPTION":
+      return {
+        ...state,
+        questions: state.questions.map((q) =>
+          q.id === action.payload
+            ? { ...q, options: [...(q.options || []), ""] }
+            : q
+        ),
+      };
+
+    case "UPDATE_OPTION":
+      return {
+        ...state,
+        questions: state.questions.map((q) =>
+          q.id === action.payload.id
+            ? {
+                ...q,
+                options: q.options?.map((opt, i) =>
+                  i === action.payload.index ? action.payload.value : opt
+                ),
+              }
+            : q
+        ),
+      };
+    case "UPDATE_QUESTION_TYPE":
+      return {
+        ...state,
+        questions: state.questions.map((q) =>
+          q.id === action.payload.id
+            ? action.payload.type === "select"
+              ? { ...q, type: action.payload.type, options: ["", ""] }
+              : { ...q, type: action.payload.type }
+            : q
+        ),
+      };
     default:
       return state;
   }
