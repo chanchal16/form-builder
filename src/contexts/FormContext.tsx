@@ -1,7 +1,13 @@
 // context/FormContext.tsx
 "use client";
 import { QuestionType, FormState, Question } from "@/types/form";
-import React, { createContext, useContext, useReducer, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  ReactNode,
+  useMemo,
+} from "react";
 import { v4 as uuidv4 } from "uuid";
 
 type Action =
@@ -127,10 +133,9 @@ const FormContext = createContext<{
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(formReducer, initialState);
+  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
   return (
-    <FormContext.Provider value={{ state, dispatch }}>
-      {children}
-    </FormContext.Provider>
+    <FormContext.Provider value={contextValue}>{children}</FormContext.Provider>
   );
 };
 
