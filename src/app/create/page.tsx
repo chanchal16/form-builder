@@ -2,7 +2,7 @@
 import { Dropdown } from "@/components/Dropdown";
 import { QuestionList } from "@/components/QuestionList";
 
-export const CreateForm = () => {
+const CreateForm = () => {
   return (
     <>
       <QuestionList />
@@ -12,3 +12,4 @@ export const CreateForm = () => {
     </>
   );
 };
+export default CreateForm
