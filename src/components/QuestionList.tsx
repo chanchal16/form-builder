@@ -19,15 +19,6 @@ export const QuestionList = () => {
     return menuItems.find((item) => item.type === ques.type)?.icon;
   };
 
-  const newMenuItems = menuItems.map((item) => ({
-    ...item,
-    icon: React.cloneElement(item.icon, {
-      width: 16,
-      height: 16,
-      stroke: "#0D0D0D",
-    }),
-  }));
-
   return (
     <>
       {!!state.questions && (
@@ -84,7 +75,7 @@ export const QuestionList = () => {
                       <SelectIcon>{currentSelected(question)}</SelectIcon>
                     </SelectTrigger>
                     <SelectContent className="">
-                      {newMenuItems.map((item) => (
+                      {menuItems.map((item) => (
                         <SelectItem
                           key={item.type}
                           value={item.type}

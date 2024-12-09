@@ -58,7 +58,7 @@ export const InputFields = ({ question }: any) => {
                     handleOptionChange(question, index, e.target.value)
                   }
                 />
-                {index === question?.options?.length - 1 && (
+                {!!question.options?.length && index === question?.options?.length - 1 && (
                   <button
                     className="flex items-center text-gray-1k hover:text-gray-700"
                     onClick={(e) =>
