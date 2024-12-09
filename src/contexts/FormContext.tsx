@@ -1,12 +1,13 @@
 // context/FormContext.tsx
 "use client";
-import { QuestionType, FormState, Question } from "@/types/form";
+import { QuestionType, FormState, Question, SavedFormData } from "@/types/form";
 import React, {
   createContext,
   useContext,
   useReducer,
   ReactNode,
   useMemo,
+  useState,
 } from "react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -30,12 +31,15 @@ type Action =
   | {
       type: "UPDATE_HELPER_TEXT";
       payload: { id: string; helpText: string };
-    };
+    }
+  | { type: "SAVE_FORM"; payload: SavedFormData }
+  | { type: "RESET_FORM" }
+  | { type: "SET_SAVED_FORMS"; payload: SavedFormData[] };
 
 const initialState: FormState = {
   title: "",
   questions: [],
-  validationErrors: [],
+  savedForms: [],
 };
 
 const formReducer = (state: FormState, action: Action): FormState => {
@@ -121,6 +125,20 @@ const formReducer = (state: FormState, action: Action): FormState => {
             : q
         ),
       };
+
+    case "SAVE_FORM":
+      return {
+        ...state,
+        savedForms: [...state.savedForms, action.payload],
+      };
+    case "RESET_FORM":
+      return {
+        ...state,
+        title: "",
+        questions: [],
+      };
+    case "SET_SAVED_FORMS":
+      return { ...state, savedForms: action.payload };
     default:
       return state;
   }
@@ -129,11 +147,43 @@ const formReducer = (state: FormState, action: Action): FormState => {
 const FormContext = createContext<{
   state: FormState;
   dispatch: React.Dispatch<Action>;
-}>({ state: initialState, dispatch: () => {} });
+  saveFormToLocalStorage: () => void;
+  isPublished: boolean;
+}>({
+  state: initialState,
+  dispatch: () => {},
+  saveFormToLocalStorage: () => {},
+  isPublished: false,
+});
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(formReducer, initialState);
-  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+  const [isPublished, setIsPublished] = useState<boolean>(false);
+  const saveFormToLocalStorage = () => {
+    const formData: SavedFormData = {
+      id: uuidv4(),
+      title: state.title,
+      questions: state.questions,
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
+      const existingForms = JSON.parse(
+        localStorage.getItem("savedForms") ?? "[]"
+      );
+      const updatedForms = [...existingForms, formData];
+      localStorage.setItem("savedForms", JSON.stringify(updatedForms));
+      dispatch({ type: "SET_SAVED_FORMS", payload: updatedForms });
+      dispatch({ type: "SAVE_FORM", payload: formData });
+      setIsPublished((prev: boolean) => !prev);
+    } catch (error) {
+      console.error("Error saving form to local storage:", error);
+    }
+  };
+  const contextValue = useMemo(
+    () => ({ state, dispatch, saveFormToLocalStorage, isPublished }),
+    [state, dispatch]
+  );
   return (
     <FormContext.Provider value={contextValue}>{children}</FormContext.Provider>
   );
