@@ -1,11 +1,11 @@
 "use client";
 import { Dropdown } from "@/components/Dropdown";
-import { Questions } from "@/components/Questions";
+import { QuestionList } from "@/components/QuestionList";
 
 export const CreateForm = () => {
   return (
     <>
-      <Questions />
+      <QuestionList />
       <Dropdown />
     </>
   );
