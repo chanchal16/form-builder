@@ -6,7 +6,9 @@ export const CreateForm = () => {
   return (
     <>
       <QuestionList />
-      <Dropdown />
+      <div className="mx-auto mt-6 py-2">
+        <Dropdown />
+      </div>
     </>
   );
 };

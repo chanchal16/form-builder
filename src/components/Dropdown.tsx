@@ -17,7 +17,7 @@ import {
   UrlIcon,
 } from "@/components/Icon";
 import { useFormContext } from "@/contexts/FormContext";
-import { IDropdownMenuItem, QuestionType } from "@/types/form";
+import { IDropdownMenuItem } from "@/types/form";
 
 export const menuItems: IDropdownMenuItem[] = [
   { type: "short", label: "Short Answer", icon: <ShortAnsIcon /> },
@@ -28,10 +28,7 @@ export const menuItems: IDropdownMenuItem[] = [
 ];
 
 export const Dropdown = () => {
-  const { state, dispatch } = useFormContext();
-  const selectedTypes = state.questions.map((q) => q.type);
-  const isDisabled = (type: QuestionType) => selectedTypes.includes(type);
-
+  const { dispatch } = useFormContext();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="pl-[14px] pr-4 gap-1 text-sm font-semibold inline-flex rounded-xl py-1.5 px-4 outline-none border border-gray-200 text-gray-1k shadow-5 hover:shadow-10">
@@ -46,16 +43,10 @@ export const Dropdown = () => {
         {menuItems.map((item) => (
           <DropdownMenuItem
             key={item.type}
-            className={`p-2 rounded-xl gap-2 ${
-              isDisabled(item.type)
-                ? "cursor-not-allowed text-gray-400"
-                : "cursor-pointer"
-            }`}
+            className={`p-2 rounded-xl cursor-pointer gap-2`}
             onClick={() =>
-              !isDisabled(item.type) &&
               dispatch({ type: "ADD_QUESTION", payload: item.type })
             }
-            disabled={isDisabled(item.type)}
           >
             {item.icon}
             <span className="text-sm font-medium">{item.label}</span>

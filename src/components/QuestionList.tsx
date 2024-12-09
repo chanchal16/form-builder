@@ -31,7 +31,7 @@ export const QuestionList = () => {
   return (
     <>
       {!!state.questions && (
-        <div className="w-[576px] space-y-4">
+        <div className="w-full space-y-4 pt-6">
           {state.questions.map((question) => (
             <div
               key={question.id}
@@ -43,7 +43,7 @@ export const QuestionList = () => {
                   <input
                     type="text"
                     placeholder="write a question"
-                    className="text-sm outline-none font-semibold"
+                    className="text-sm text-wrap outline-none font-semibold"
                     required
                     value={question.text ?? ""}
                     onChange={(e) =>
@@ -57,7 +57,7 @@ export const QuestionList = () => {
                   <input
                     type="text"
                     placeholder="Write a help text or caption (leave empty if not needed)."
-                    className="text-xs outline-none"
+                    className="text-xs text-wrap outline-none"
                     value={question.helperText ?? ""}
                     onChange={(e) =>
                       dispatch({
