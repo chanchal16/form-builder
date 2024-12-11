@@ -1,5 +1,6 @@
 // context/FormContext.tsx
 "use client";
+import { toast } from "@/hooks/use-toast";
 import { QuestionType, FormState, Question, SavedFormData } from "@/types/form";
 import React, {
   createContext,
@@ -177,7 +178,11 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
       dispatch({ type: "SAVE_FORM", payload: formData });
       setIsPublished((prev: boolean) => !prev);
     } catch (error) {
-      console.error("Error saving form to local storage:", error);
+      toast({
+        description: "Error saving form to local storage",
+        variant: "destructive",
+      });
+      console.log(error);
     }
   };
   const contextValue = useMemo(

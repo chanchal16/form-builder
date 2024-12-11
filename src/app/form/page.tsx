@@ -16,10 +16,23 @@ const Form = () => {
     setResponses((prev) => ({ ...prev, [id]: value }));
   };
 
+  const calculateCompleteness = () => {
+    const totalQuestions = state.questions.length;
+    const answeredQuestions = Object.values(responses).filter(
+      (response) => response.trim() !== ""
+    ).length;
+    return totalQuestions === 0
+      ? 0
+      : Math.round((answeredQuestions / totalQuestions) * 100);
+  };
+
   const handleSubmit = () => {
     // Validate all questions are answered
     if (Object.keys(responses).length !== state.questions.length) {
-      console.error("Please complete all questions before submitting.");
+      toast({
+        description: "Please complete all questions before submitting.",
+        variant: "destructive",
+      });
       return;
     }
     const formDataToSave = {
@@ -47,6 +60,7 @@ const Form = () => {
       toast({
         title: "Error saving form data",
         description: "Please try again",
+        variant: "destructive",
       });
     }
   };
@@ -120,8 +134,19 @@ const Form = () => {
   };
   return (
     <div className="w-full lg:w-[640px] flex flex-col h-screen text-gray-1k border border-gray-200 mx-auto">
-      <div className="w-full flex lg:w-[640px] h-14 border-b border-gray-200 justify-between items-center px-6">
+      <div className="w-full flex flex-col sm:flex-row lg:w-[640px] h-14 border-b border-gray-200 justify-between sm:items-center px-6">
         <h3 className="text-base font-semibold ">{state.title}</h3>
+        <div className="flex flex-col gap-1 sm:gap-2 w-full sm:w-[300px]">
+          <p className="text-sm text-right">
+            Form completeness — {calculateCompleteness()}%
+          </p>
+          <div className="w-full bg-gray-200 rounded h-1">
+            <div
+              className="bg-green-300 h-1 rounded-full"
+              style={{ width: `${calculateCompleteness()}%` }}
+            ></div>
+          </div>
+        </div>
       </div>
       <div className="p-6 flex flex-col gap-10">
         <div className="flex flex-col gap-8">
